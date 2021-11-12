@@ -1,0 +1,48 @@
+﻿@using Project.Entities
+@model Project.Entities.Product
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Products list</h2>
+<a href="~/Products/Create">Create product</a>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="product">
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $.ajax({
+            url: "https://localhost:44305/api/Products",
+            type: "GET",
+            data: "",
+            dataType: "json",
+            success: function (response) {
+                for (var product of response) {
+                    $("#product").append(`
+                                            <tr>
+                                                <td>${product.ProductId}</td>
+                                                <td>${product.Name}</td>
+                                                <td>${product.Price}</td>
+                                                <td><a href="/Products/Edit/${product.ProductId}">Edit</a> | <a href="/Products/Delete/${product.ProductId}">Delete</a> </td>
+                                            </tr>
+                                            `);
+                }
+            }
+        });
+    </script>
+}

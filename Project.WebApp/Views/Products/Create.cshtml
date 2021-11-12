@@ -1,0 +1,48 @@
+﻿@using Project.Entities
+@model Project.Entities.Product
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Create Product</h2>
+
+<input id="prdName" type="text" value="" placeholder="Product name" />
+<input id="prdPrice" type="text" value="" placeholder="Product price" />
+<button id="createBtn">Create Product</button>
+<p id="monitor"></p>
+
+<br />
+<a href="~/Products/Index">Back to products list</a>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $("#createBtn").click(function (e) {
+            var name = $("#prdName").val();
+            var price = $("#prdPrice").val();
+
+            var settings = {
+                "url": "https://localhost:44305/api/Products",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "Name": name,
+                    "Price": price
+                }),
+            };
+
+            $.ajax(settings).done(function (response) {
+                alert(`${name} created!`)
+            });
+
+        })
+        
+    </script>
+}
